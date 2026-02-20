@@ -33,7 +33,6 @@
         <p class="nome_gato" id="resultadoNome"></p>
 
         {% if urls_imagens %}
-        {% if urls_imagens %}
         <script>
             const IMAGENS = {{ urls_imagens | tojson | safe }};
             const NOME = "{{ nome }}";
