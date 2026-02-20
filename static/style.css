@@ -5,12 +5,12 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
-bbody {
+body {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url("../static/fundo.jpg") center/cover no-repeat;
+    background: url("fundo.jpg") center/cover no-repeat;
     position: relative;
 }
 
@@ -109,12 +109,12 @@ button:hover {
 
 /* ANIMAÇÃO GIRAR */
 .girando {
-    animation: girar 0.2s linear infinite;
+    animation: tremor 0.08s infinite alternate;
 }
 
-@keyframes girar {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@keyframes tremor {
+    from { transform: rotate(-4deg); }
+    to { transform: rotate(4deg); }
 }
 
 /* ANIMAÇÃO ENTRADA */
