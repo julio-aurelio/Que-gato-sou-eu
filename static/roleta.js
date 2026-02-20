@@ -10,25 +10,33 @@ window.addEventListener("load", function () {
         const nome = document.getElementById("nomeInput").value;
 
         if (!nome) {
-            alert("Digita o nome infeliz 😾");
+            alert("Digite um nome 😾");
             return;
         }
 
         resultadoNome.textContent = "";
         img.style.display = "block";
-        img.src = "";
-        img.classList.add("girando");
 
         try {
-            const resposta = await fetch("https://api.thecatapi.com/v1/images/search?limit=6");
+            const resposta = await fetch("/api/roleta", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ nome })
+            });
+
             const dados = await resposta.json();
 
-            const imagens = dados.map(g => g.url);
+            if (dados.erro) {
+                alert(dados.erro);
+                return;
+            }
 
-            iniciarRoleta(imagens, nome);
+            iniciarRoleta(dados.imagens, dados.nome);
 
         } catch (erro) {
-            alert("Erro ao buscar gatos 😿");
+            alert("Erro no servidor 😿");
         }
     });
 
@@ -58,17 +66,9 @@ window.addEventListener("load", function () {
             if (porcentagem < 1) {
                 requestAnimationFrame(animar);
             } else {
-                finalizar();
-            }
-        }
-
-        function finalizar() {
-            img.classList.remove("girando");
-            img.classList.add("final-cat");
-
-            setTimeout(() => {
+                img.classList.add("final-cat");
                 resultadoNome.textContent = `${nome}, esse gato é você 😹`;
-            }, 300);
+            }
         }
 
         requestAnimationFrame(animar);
