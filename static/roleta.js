@@ -1,47 +1,42 @@
 window.addEventListener("load", function () {
 
-    if (typeof IMAGENS === "undefined") return;
-
-    const imagens = IMAGENS;
-    const nome = NOME;
-
+    const form = document.getElementById("formGato");
     const img = document.getElementById("imagemRoleta");
     const resultadoNome = document.getElementById("resultadoNome");
 
-    let imagensPreCarregadas = [];
-    let carregadas = 0;
-    let primeiraCarregada = false;
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    imagens.forEach((url, index) => {
-        const novaImg = new Image();
-        novaImg.src = url;
+        const nome = document.getElementById("nomeInput").value;
 
-        novaImg.onload = () => {
+        if (!nome) {
+            alert("Digita o nome infeliz 😾");
+            return;
+        }
 
-            // 👉 Mostra a primeira imagem assim que carregar
-            if (!primeiraCarregada) {
-                img.src = novaImg.src;
-                img.style.display = "block";
-                primeiraCarregada = true;
-            }
+        resultadoNome.textContent = "";
+        img.style.display = "block";
+        img.src = "";
+        img.classList.add("girando");
 
-            carregadas++;
+        try {
+            const resposta = await fetch("https://api.thecatapi.com/v1/images/search?limit=6");
+            const dados = await resposta.json();
 
-            if (carregadas === imagens.length) {
-                iniciarRoleta();
-            }
-        };
+            const imagens = dados.map(g => g.url);
 
-        imagensPreCarregadas.push(novaImg);
+            iniciarRoleta(imagens, nome);
+
+        } catch (erro) {
+            alert("Erro ao buscar gatos 😿");
+        }
     });
 
-    function iniciarRoleta() {
-
-        img.classList.add("girando");
+    function iniciarRoleta(imagens, nome) {
 
         let inicio = null;
         const duracao = 2000;
-        const totalImagens = imagensPreCarregadas.length;
+        const totalImagens = imagens.length;
 
         function animar(timestamp) {
 
@@ -49,7 +44,6 @@ window.addEventListener("load", function () {
 
             let progresso = timestamp - inicio;
             let porcentagem = progresso / duracao;
-
             if (porcentagem > 1) porcentagem = 1;
 
             let easeOut = 1 - Math.pow(1 - porcentagem, 3);
@@ -59,7 +53,7 @@ window.addEventListener("load", function () {
                 index = totalImagens - 1;
             }
 
-            img.src = imagensPreCarregadas[index].src;
+            img.src = imagens[index];
 
             if (porcentagem < 1) {
                 requestAnimationFrame(animar);
