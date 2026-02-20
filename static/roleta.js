@@ -15,7 +15,7 @@ window.addEventListener("load", function () {
         }
 
         resultadoNome.textContent = "";
-        img.style.display = "block";
+        img.style.opacity = "1";
 
         try {
             const resposta = await fetch("/api/roleta", {
@@ -40,11 +40,27 @@ window.addEventListener("load", function () {
         }
     });
 
-    function iniciarRoleta(imagens, nome) {
+    async function iniciarRoleta(imagens, nome) {
+
+        img.classList.remove("final-cat");
+        img.classList.add("girando");
+
+        let imagensPreCarregadas = [];
+
+        await Promise.all(
+            imagens.map(url => {
+                return new Promise((resolve) => {
+                    const novaImg = new Image();
+                    novaImg.src = url;
+                    novaImg.onload = () => resolve(novaImg);
+                    imagensPreCarregadas.push(novaImg);
+                });
+            })
+        );
 
         let inicio = null;
         const duracao = 2000;
-        const totalImagens = imagens.length;
+        const totalImagens = imagensPreCarregadas.length;
 
         function animar(timestamp) {
 
@@ -61,14 +77,19 @@ window.addEventListener("load", function () {
                 index = totalImagens - 1;
             }
 
-            img.src = imagens[index];
+            img.src = imagensPreCarregadas[index].src;
 
             if (porcentagem < 1) {
                 requestAnimationFrame(animar);
             } else {
-                img.classList.add("final-cat");
-                resultadoNome.textContent = `${nome}, esse gato é você 😹`;
+                finalizar();
             }
+        }
+
+        function finalizar() {
+            img.classList.remove("girando");
+            img.classList.add("final-cat");
+            resultadoNome.textContent = `${nome}, esse gato é você 😹`;
         }
 
         requestAnimationFrame(animar);

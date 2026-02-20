@@ -1,48 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
-    <title>Qual gato você é???</title>
+    <title>Roleta dos Gatos 😼</title>
     <link rel="stylesheet" href="../static/style.css">
 </head>
-
 <body>
 
     <div class="container">
 
-        <h1>Qual gato você é? 😼</h1>
-
-        {% with mensagens = get_flashed_messages() %}
-        {% if mensagens %}
-        {% for msg in mensagens %}
-        <div class="flash-msg">{{ msg }}</div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+        <h1>🎰 Roleta dos Gatos 🎰</h1>
 
         <form id="formGato">
-            <input type="text" id="nomeInput" placeholder="Informe seu nome">
-            <button type="submit">Analisar sua vida 😼</button>
+            <input type="text" id="nomeInput" placeholder="Digite seu nome">
+            <button type="submit">Roletar 😹</button>
         </form>
 
-        <div class="roleta-container">
-            <img id="imagemRoleta" class="imagem_gato" style="display:none;">
+        <div class="roleta-area">
+            <img id="imagemRoleta">
+            <h2 id="resultadoNome"></h2>
         </div>
-
-        <p class="nome_gato" id="resultadoNome"></p>
-
-        {% if urls_imagens %}
-        <script>
-            const IMAGENS = {{ urls_imagens | tojson | safe }};
-            const NOME = "{{ nome }}";
-        </script>
-        {% endif %}
-
-        <script src="../static/roleta.js"></script>
 
     </div>
 
-</body>
+    <script src="../static/roleta.js"></script>
 
+</body>
 </html>

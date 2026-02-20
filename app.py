@@ -8,34 +8,34 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "dev_secret_key")
 ENDPOINT_API = "https://api.thecatapi.com/v1/images/search?limit=6"
 
 
-@app.route('/')
+@app.route("/")
 def index():
     return render_template("index.html")
 
 
-@app.route('/api/roleta', methods=['POST'])
-def roleta():
+@app.route("/api/roleta", methods=["POST"])
+def api_roleta():
 
-    data = request.get_json()
-    nome = data.get("nome")
+    dados = request.get_json()
+    nome = dados.get("nome")
 
     if not nome:
-        return jsonify({"erro": "Nome obrigatório"}), 400
+        return jsonify({"erro": "Digite um nome 😾"}), 400
 
     try:
         resposta = requests.get(ENDPOINT_API, timeout=5)
         resposta.raise_for_status()
     except:
-        return jsonify({"erro": "Erro ao buscar gatos"}), 500
+        return jsonify({"erro": "Erro ao buscar gatinhos 😿"}), 500
 
-    dados = resposta.json()
-    urls_imagens = [gato['url'] for gato in dados]
+    gatos = resposta.json()
+    urls = [gato["url"] for gato in gatos]
 
     return jsonify({
         "nome": nome,
-        "imagens": urls_imagens
+        "imagens": urls
     })
 
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
