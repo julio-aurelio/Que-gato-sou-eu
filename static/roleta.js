@@ -47,6 +47,11 @@ window.addEventListener("load", function () {
 
         let imagensPreCarregadas = [];
 
+        // Começa animação fake imediata
+        let intervalo = setInterval(() => {
+            img.src = imagens[Math.floor(Math.random() * imagens.length)];
+        }, 100);
+
         await Promise.all(
             imagens.map(url => {
                 return new Promise((resolve) => {
@@ -58,41 +63,18 @@ window.addEventListener("load", function () {
             })
         );
 
-        let inicio = null;
-        const duracao = 2000;
-        const totalImagens = imagensPreCarregadas.length;
+        // Para a rotação fake
+        clearInterval(intervalo);
 
-        function animar(timestamp) {
+        // Escolhe imagem final
+        const imagemFinal = imagensPreCarregadas[Math.floor(Math.random() * imagensPreCarregadas.length)];
 
-            if (!inicio) inicio = timestamp;
+        img.src = imagemFinal.src;
 
-            let progresso = timestamp - inicio;
-            let porcentagem = progresso / duracao;
-            if (porcentagem > 1) porcentagem = 1;
+        img.classList.remove("girando");
+        img.classList.add("final-cat");
 
-            let easeOut = 1 - Math.pow(1 - porcentagem, 3);
-            let index = Math.floor(easeOut * totalImagens);
-
-            if (index >= totalImagens) {
-                index = totalImagens - 1;
-            }
-
-            img.src = imagensPreCarregadas[index].src;
-
-            if (porcentagem < 1) {
-                requestAnimationFrame(animar);
-            } else {
-                finalizar();
-            }
-        }
-
-        function finalizar() {
-            img.classList.remove("girando");
-            img.classList.add("final-cat");
-            resultadoNome.textContent = `${nome}, esse gato é você 😹`;
-        }
-
-        requestAnimationFrame(animar);
+        resultadoNome.textContent = `${nome}, esse gato é você 😹`;
     }
 
 });
