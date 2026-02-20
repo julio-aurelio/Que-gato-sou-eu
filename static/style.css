@@ -155,3 +155,7 @@ button:hover {
         filter: brightness(1.1);
     }
 }
+.roleta-container {
+    background: #f3f3f3;
+    border-radius: 16px;
+}

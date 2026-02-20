@@ -8,20 +8,30 @@ window.addEventListener("load", function () {
     const img = document.getElementById("imagemRoleta");
     const resultadoNome = document.getElementById("resultadoNome");
 
-    img.style.display = "block";
-
     let imagensPreCarregadas = [];
     let carregadas = 0;
+    let primeiraCarregada = false;
 
-    imagens.forEach((url) => {
+    imagens.forEach((url, index) => {
         const novaImg = new Image();
         novaImg.src = url;
+
         novaImg.onload = () => {
+
+            // 👉 Mostra a primeira imagem assim que carregar
+            if (!primeiraCarregada) {
+                img.src = novaImg.src;
+                img.style.display = "block";
+                primeiraCarregada = true;
+            }
+
             carregadas++;
+
             if (carregadas === imagens.length) {
                 iniciarRoleta();
             }
         };
+
         imagensPreCarregadas.push(novaImg);
     });
 
