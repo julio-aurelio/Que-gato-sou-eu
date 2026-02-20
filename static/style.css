@@ -1,65 +1,123 @@
-body {
+* {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e90ff, #00bcd4);
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    background: linear-gradient(135deg, #1e90ff, #00c6ff);
 }
 
+/* CONTAINER */
 .container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
+    width: 420px;
+    padding: 35px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 400px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+/* TÍTULO */
+h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* INPUT + BOTÃO */
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 input {
-    padding: 10px;
-    width: 70%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
 }
 
 button {
-    padding: 10px;
+    padding: 12px 18px;
+    border-radius: 10px;
     border: none;
-    border-radius: 5px;
-    background: #1e90ff;
+    background: linear-gradient(45deg, #ff4e50, #f9d423);
     color: white;
+    font-weight: bold;
     cursor: pointer;
+    transition: 0.3s ease;
 }
 
 button:hover {
-    background: #187bcd;
-}
-
-.roleta-area {
-    margin-top: 20px;
-}
-
-#imagemRoleta {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-top: 10px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.girando {
-    animation: vibrar 0.1s infinite;
-}
-
-.final-cat {
     transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-@keyframes vibrar {
-    0% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
-    100% { transform: rotate(-3deg); }
+/* IMAGEM */
+#imagemRoleta {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-top: 10px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+#imagemRoleta:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* TEXTO FINAL */
+#resultadoNome {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    animation: aparecer 0.5s ease;
+}
+
+/* ANIMAÇÃO GIRAR */
+.girando {
+    animation: girar 0.2s linear infinite;
+}
+
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ANIMAÇÃO ENTRADA */
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVO */
+@media (max-width: 480px) {
+    .container {
+        width: 90%;
+        padding: 25px;
+    }
+
+    #imagemRoleta {
+        width: 220px;
+        height: 220px;
+    }
 }
