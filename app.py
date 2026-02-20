@@ -3,7 +3,7 @@ import requests
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24)
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "dev_secret_key")
 
 ENDPOINT_API = "https://api.thecatapi.com/v1/images/search?limit=6"
 
@@ -23,7 +23,7 @@ def cat():
         return redirect('/')
 
     try:
-        resposta = requests.get(ENDPOINT_API)
+        resposta = requests.get(ENDPOINT_API, timeout=5)
         resposta.raise_for_status()
     except:
         flash("ERRO! Deixa os gatinhos descansarem 😿")
@@ -40,4 +40,4 @@ def cat():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
