@@ -21,7 +21,6 @@
         {% endif %}
         {% endwith %}
 
-        <!-- FORM NORMAL -->
         <form action="/cat" method="POST">
             <input type="text" name="nome" placeholder="Informe seu nome">
             <button type="submit">Analisar sua vida 😼</button>
@@ -33,49 +32,15 @@
 
         <p class="nome_gato" id="resultadoNome"></p>
 
-        <!-- RODA A ROLETA SE TIVER IMAGENS -->
+        {% if urls_imagens %}
         {% if urls_imagens %}
         <script>
-            window.onload = function () {
-                const imagens = {{ urls_imagens | tojson | safe}};
-            const nome = "{{ nome }}";
-
-            const img = document.getElementById("imagemRoleta");
-            const resultadoNome = document.getElementById("resultadoNome");
-
-            img.style.display = "block";
-
-            let i = -1;
-            let velocidade = 80;
-
-            function girar() {
-
-                i++;
-                img.src = imagens[i];
-
-                if (i < imagens.length - 1) {
-                    velocidade += 60;
-                    setTimeout(girar, velocidade);
-                }
-                else {
-
-                    img.style.transform = "scale(1)";
-
-                    setTimeout(() => {
-                        img.classList.add("final-cat");
-
-                        // espera a animação terminar
-                        setTimeout(() => {
-                            resultadoNome.textContent = `${nome}, esse gato é você 😹`;
-                        }, 400); // mesmo tempo do transition
-                    }, 300);
-                }
-            }
-
-            girar();
-    };
+            const IMAGENS = {{ urls_imagens | tojson | safe }};
+            const NOME = "{{ nome }}";
         </script>
         {% endif %}
+
+        <script src="../static/roleta.js"></script>
 
     </div>
 
