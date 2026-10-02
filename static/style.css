@@ -6,7 +6,8 @@
 }
 
 body {
-    height: 100vh;
+    min-height: 100vh;
+    padding: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +17,7 @@ body {
 
 body::before {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     backdrop-filter: blur(6px);
     background: rgba(0,0,0,0.5);
@@ -29,7 +30,8 @@ body::before {
 
 /* CONTAINER */
 .container {
-    width: 420px;
+    width: 100%;
+    max-width: 420px;
     padding: 35px;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.15);
@@ -65,7 +67,7 @@ input {
     border-radius: 10px;
     border: none;
     outline: none;
-    font-size: 14px;
+    font-size: 16px; /* 16px evita o zoom automático do iPhone */
 }
 
 button {
@@ -86,12 +88,18 @@ button:hover {
 
 /* IMAGEM */
 #imagemRoleta {
-    width: 260px;
-    height: 260px;
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 1;
     object-fit: cover;
     border-radius: 20px;
     margin-top: 10px;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* esconde a imagem vazia antes do primeiro sorteio */
+#imagemRoleta:not([src]) {
+    display: none;
 }
 
 #imagemRoleta:hover {
@@ -126,12 +134,18 @@ button:hover {
 /* RESPONSIVO */
 @media (max-width: 480px) {
     .container {
-        width: 90%;
-        padding: 25px;
+        padding: 25px 20px;
     }
 
-    #imagemRoleta {
-        width: 220px;
-        height: 220px;
+    h1 {
+        font-size: 22px;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    button {
+        padding: 14px;
     }
 }
